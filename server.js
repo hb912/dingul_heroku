@@ -32,15 +32,14 @@ passportConfig();
 app.use(passport.initialize());
 app.use(express.static(path.join(__dirname, '/build')));
 
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '/build', 'index.html'));
-});
-
 app.use('/api', userRouter);
 app.use('/api/room', roomRouter);
 app.use('/api/booking', bookingRouter);
 app.use('/api/admin', refresh, adminRequired, adminRouter);
 app.use('/api/review', reviewRouter);
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '/build', 'index.html'));
+});
 app.use(errorHandler);
 
 app.listen(PORT, () => {
