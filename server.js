@@ -1,5 +1,6 @@
 import cors from 'cors';
 import express from 'express';
+import path from 'path';
 import 'dotenv/config';
 import {
   userRouter,
@@ -7,11 +8,11 @@ import {
   roomRouter,
   adminRouter,
   reviewRouter,
-} from './routers';
+} from './src/routers';
 import passport from 'passport';
-import passportConfig from './passport';
+import passportConfig from './src/passport';
 // import MongoStore from 'connect-mongo';
-import { errorHandler, refresh, adminRequired } from './middleware';
+import { errorHandler, refresh, adminRequired } from './src/middleware';
 import cookieParser from 'cookie-parser';
 
 const app = express();
@@ -19,7 +20,7 @@ const PORT = process.env.PORT || 5000;
 
 app.use(
   cors({
-    origin: 'http://kdt-sw2-busan-team03.elicecoding.com',
+    origin: 'http://localhost:5000',
     credentials: true,
   })
 );
@@ -29,6 +30,12 @@ app.use(express.urlencoded({ extended: false }));
 passportConfig();
 
 app.use(passport.initialize());
+app.use(express.static(path.join(__dirname, '/build')));
+
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, '/build', 'index.html'));
+});
+
 app.use('/api', userRouter);
 app.use('/api/room', roomRouter);
 app.use('/api/booking', bookingRouter);
