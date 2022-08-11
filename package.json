@@ -1,6 +1,7 @@
 {
   "scripts": {
-    "start": "nodemon ./server.js --exec babel-node",
+    "start": "babel-node ./server.js",
+    "dev": "nodemon ./server.js --exec babel-node",
     "lint": "eslint src/**/*.js src/*.js"
   },
   "devDependencies": {
